@@ -1,0 +1,33 @@
+DROP TABLE IF EXISTS interests;
+DROP TABLE IF EXISTS listings;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  role VARCHAR(20) DEFAULT 'student',
+  skills_offered TEXT,
+  skills_needed TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE listings (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  title VARCHAR(150) NOT NULL,
+  description TEXT NOT NULL,
+  category VARCHAR(20) NOT NULL,
+  status VARCHAR(20) DEFAULT 'Available',
+  approved BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE interests (
+  id SERIAL PRIMARY KEY,
+  listing_id INTEGER REFERENCES listings(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  message TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
