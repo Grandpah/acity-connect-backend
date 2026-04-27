@@ -84,8 +84,15 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/listings", async (req, res) => {
-  const listings = await pool.query("SELECT * FROM listings WHERE approved = true");
-  res.json(listings.rows);
+  try {
+    const listings = await pool.query("SELECT * FROM listings WHERE approved = true");
+    res.json(listings.rows);
+  } catch (error) {
+    res.status(500).json({
+      message: "Could not fetch listings",
+      error: error.message
+    });
+  }
 });
 
 app.post("/api/listings", protect, async (req, res) => {
@@ -122,6 +129,22 @@ app.post("/api/listings/:id/interested", protect, async (req, res) => {
     });
   }
 });
+
+app.get("/api/db-test", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({
+      message: "Database connected successfully",
+      time: result.rows[0]
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Database connection failed",
+      error: error.message
+    });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
