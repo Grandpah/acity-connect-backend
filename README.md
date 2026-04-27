@@ -1,19 +1,19 @@
-# CampusTrade ACITY (Frontend)
+# CampusTrade ACITY (Backend API)
 
 ## 📌 Project Overview
 
-CampusTrade ACITY is a smart campus marketplace and skill exchange platform designed for Academic City students.
-It allows students to trade second-hand items, offer skills, and connect within a secure campus environment.
+This is the backend API for CampusTrade ACITY, a campus marketplace platform that enables students to trade items and exchange skills.
+It provides authentication, listing management, and database integration.
 
 ---
 
 ## 🌐 Deployment Links
 
-Frontend (Live Website):
-https://grandpah.github.io/acity-connect-frontend/
-
 Backend API:
 https://acity-connect-backend.onrender.com
+
+Frontend Application:
+https://grandpah.github.io/acity-connect-frontend/
 
 ---
 
@@ -26,78 +26,112 @@ Password: password123
 
 ## 🚀 Features Implemented
 
-### 👤 User System
+### 👤 Authentication System
 
-✔ User registration and login
-✔ Restricted to ACity institutional emails
-✔ Secure authentication using JWT
+✔ User registration (ACity email restriction)
+✔ Secure login system
+✔ Password hashing using bcrypt
+✔ JWT authentication
 
-### 🛒 Marketplace and Listings
+### 🛒 Listings System
 
-✔ Create listings (Items and Skills)
-✔ Listings include:
-
-* Title
-* Description
-* Category (Item/Skill)
-* Status (Available, Sold, Swapped)
-
-✔ Search and filter listings
+✔ Create listings (protected route)
+✔ Fetch approved listings
+✔ Store listings in PostgreSQL database
 
 ### 🤝 Interaction System
 
-✔ “Interested” button
-✔ Basic interaction tracking system
+✔ Interest requests supported
+✔ Interaction tracking handled via frontend/backend
 
-### 🛠️ Admin Features
+### 🛠️ Admin Logic
 
-✔ Listings require admin approval before visible
-✔ Admin moderation handled via backend/database
-✔ Platform activity overview (listing counts)
+✔ Listings require approval before display
+✔ Moderation handled via backend database
+✔ Supports admin workflow
 
 ---
 
-## 🧪 How to Test
+## 📡 API Endpoints
 
-1. Register using ACity email
-2. Login
-3. Create a listing
-4. Approve listing in database:
+### Register
 
-```sql
-UPDATE listings SET approved = true;
-```
+POST /api/register
 
-5. Refresh website to view listing
+### Login
+
+POST /api/login
+
+### Get Listings
+
+GET /api/listings
+
+### Create Listing (Protected)
+
+POST /api/listings
+
+---
+
+## 🔐 Authentication
+
+Protected routes require:
+Authorization: Bearer TOKEN
 
 ---
 
 ## 🛠️ Technologies Used
 
-* HTML
-* CSS
-* JavaScript (Vanilla)
-* Fetch API
-* GitHub Pages (Hosting)
+* Node.js
+* Express.js
+* PostgreSQL (Render Database)
+* JWT (Authentication)
+* bcryptjs
+* dotenv
+
+---
+
+## ⚙️ Environment Variables
+
+PORT=5000
+JWT_SECRET=your_secret
+DATABASE_URL=your_database_url
+
+---
+
+## 🧪 Database Setup
+
+Run schema.sql to create:
+
+* users
+* listings
+* interests
 
 ---
 
 ## ⚙️ Installation Instructions
 
-To run locally:
-
 1. Clone repository:
 
 ```bash
-git clone https://github.com/Grandpah/acity-connect-frontend
+git clone https://github.com/Grandpah/acity-connect-backend
 ```
 
-2. Open index.html in browser
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run server:
+
+```bash
+npm start
+```
 
 ---
 
 ## 📌 Notes
 
-* Only approved listings are displayed
-* Backend handles authentication and data storage
-* Admin features are implemented through backend workflow
+* PostgreSQL connection uses SSL (Render requirement)
+* Only approved listings are returned
+* Backend is deployed on Render
